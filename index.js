@@ -23,8 +23,8 @@ for (let index = 0; index < nbPlayer; index++) {
         score: [],
         throw: 0,
         keels: 10,
-        ifspare: false,
-        ifStrike: false
+        ifspare: Boolean,
+        ifStrike: Boolean
     };
     playerList.push(newPlayer);
 }
