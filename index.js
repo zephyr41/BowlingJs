@@ -1,115 +1,124 @@
-// Nécessaire pour pouvoir récupérer les inputs utilisateurs dans le CLI
 const prompt = require('prompt-sync')();
 
-// Variables nous permettant de stocker nos données
-
-let ResultStrike = 0;
 let nbPlayer = 0;
 let playerList = [];
-let throwplayer
+let maxScore = -1;
+let winners = [];
 
+nbPlayer = parseInt(prompt('How many players are we ? '));
 
-// Question est posée dans le CLI, on récupère l'information utilisateur sous la forme d'un Integer.
-nbPlayer = parseInt(prompt('How many players are we? '));
-
-// Vérifier que le nombre de joueurs est compris entre 1 et 6
-while (nbPlayer < 1 || nbPlayer > 6) {
+while (isNaN(nbPlayer) || nbPlayer < 1 || nbPlayer > 6) {
     nbPlayer = parseInt(prompt('Please enter a valid number of players (1-6): '));
 }
 
-// Création du joueur, comportant un nom et un score
 for (let index = 0; index < nbPlayer; index++) {
-    const nom = prompt("What is the name of player " + (index + 1) + ": ");
+    const name = prompt("What is the name of player " + (index + 1) + ": ");
     let newPlayer = {
-        nom: nom,
+        name: name,
         score: [],
-        throw: 0,
-        keels: 10,
-        ifspare: false,
-        ifStrike: false
     };
     playerList.push(newPlayer);
-
 }
-for (let frame = 0; frame < 2; frame++) {
-    console.log("Vous êtes au tour " + (frame + 1) + "\n\n\n");
+
+for (let frame = 0; frame < 10; frame++) {
+    console.log("\nTurn number " + (frame + 1) + "\n");
     for (let iteratePlayer = 0; iteratePlayer < playerList.length; iteratePlayer++) {
-
-        for (let throwFrame = 0; throwFrame < 2; throwFrame++) {
-            console.log("\n Frame " + (frame + 1) + ", Lancer " + (throwFrame + 1) + "\n");
-
-            const pinsFall = parseInt(prompt('How many pins fell for ' + playerList[iteratePlayer].nom + ": "));
-
-            if (pinsFall == 10 && throwFrame === 0) {
-                console.log("\n Strike ! +10 au 2 prochain lancer ! \n");
-            }
-
-            const throwplayer = playerList[iteratePlayer].throw;
-
-
-
-            playerList[iteratePlayer].throw += 1;
-
-            if (throwFrame === 0 && playerList[iteratePlayer].score[throwplayer - 2] === 10 ||
-                throwFrame === 0 && (playerList[iteratePlayer].score[throwplayer - 2] - 10) >= 10 ||
-                throwFrame === 1 && playerList[iteratePlayer].score[throwplayer - 1] === 10 ||
-                throwFrame === 1 && (playerList[iteratePlayer].score[throwplayer - 1] - 10) >= 10) {
-                ResultStrike = pinsFall + 10;
-                playerList[iteratePlayer].score.push((ResultStrike));
-                ResultStrike = 0;
-                playerList[iteratePlayer].keels -= pinsFall
-                console.log("\n Quille restante " + playerList[iteratePlayer].keels)
-                playerList[iteratePlayer].keels = 10
-                playerList[iteratePlayer].ifStrike = true
-            } 
-            else if(throwFrame === 1 && frame === 1 && pinsFall === 10){
-                playerList[iteratePlayer].ifStrike = true
-                playerList[iteratePlayer].score.push((10));
-                
-            }
-            
-            else {
-
-                playerList[iteratePlayer].keels -= pinsFall
-                console.log("\n Quille restante " + playerList[iteratePlayer].keels)
-                if (playerList[iteratePlayer].keels === 0 && throwFrame === 1) {
-                    console.log("S P A R E ! Prochain coup + 10 ")
-                    playerList[iteratePlayer].ifspare = true
-
-                }
-                if (playerList[iteratePlayer].ifspare == true && throwFrame === 0) {
-                    playerList[iteratePlayer].score.push(pinsFall + 10)
-
-                } else {
-                    playerList[iteratePlayer].score.push(pinsFall)
-                }
-                
-
-            }
-
-
-            
-            if(frame === 1 && throwFrame === 1 && playerList[iteratePlayer].ifStrike === true){
-                console.log("Bonus S T R I K E + 2 turns  ")
-                const bonusStrike = parseInt(prompt('How many pins fell for ' + playerList[iteratePlayer].nom + ": "));
-                playerList[iteratePlayer].score.push(bonusStrike)
-                const bonus2 = parseInt(prompt('How many pins fell for ' + playerList[iteratePlayer].nom + ": "));
-                playerList[iteratePlayer].score.push(bonus2)
-            }
-            else if(frame === 1 && throwFrame === 1 && playerList[iteratePlayer].ifspare === true){
-                console.log("Bonus S P A R E + 1 turn  ")
-                const bonusSpare = parseInt(prompt('How many pins fell for ' + playerList[iteratePlayer].nom + ": "));
-                playerList[iteratePlayer].score.push(bonusSpare)
-            }
-            
-            playerList[iteratePlayer].ifStrike = false
-            playerList[iteratePlayer].ifspare = false
-            
+        let pinsFall1 = parseInt(prompt('1st try - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
+        while (isNaN(pinsFall1) || pinsFall1 < 0 || pinsFall1 > 10) {
+            console.log('Enter a valid score (between 0 and 10).');
+            pinsFall1 = parseInt(prompt('1st try - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
         }
-        playerList[iteratePlayer].keels = 10
+        playerList[iteratePlayer].score.push(pinsFall1);
+
+        if (pinsFall1 === 10) {
+            console.log("Strike !\n");
+            playerList[iteratePlayer].score.push(10);
+        } else {
+            let pinsFall2 = parseInt(prompt('2nd try - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
+            while (isNaN(pinsFall2) || pinsFall2 < 0 || pinsFall2 > (10 - pinsFall1)) {
+                console.log('Enter a valid score (between 0 and ' + (10 - pinsFall1) + ').');
+                pinsFall2 = parseInt(prompt('2nd try - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
+            }
+            playerList[iteratePlayer].score.push(pinsFall2);
+
+            if (pinsFall1 + pinsFall2 === 10) {
+                console.log('Spare !\n');
+                playerList[iteratePlayer].score.push(10);
+            }
+        }
+    }
+}
+
+// Tour bonus pour le 10e tour
+for (let iteratePlayer = 0; iteratePlayer < playerList.length; iteratePlayer++) {
+    const bonusRolls = playerList[iteratePlayer].score.slice(18);
+    if (bonusRolls.length === 1) {
+        let bonusPinsFall = parseInt(prompt('Bonus try - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
+        while (isNaN(bonusPinsFall) || bonusPinsFall < 0 || bonusPinsFall > 10) {
+            console.log('Enter a valid score (between 0 and 10).');
+            bonusPinsFall = parseInt(prompt('Bonus try - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
+        }
+        playerList[iteratePlayer].score.push(bonusPinsFall);
+    } else if (bonusRolls.length === 2) {
+        let bonusPinsFall1 = parseInt(prompt('Bonus try 1 - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
+        while (isNaN(bonusPinsFall1) || bonusPinsFall1 < 0 || bonusPinsFall1 > 10) {
+            console.log('Enter a valid score (between 0 and 10).');
+            bonusPinsFall1 = parseInt(prompt('Bonus try 1 - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
+        }
+        playerList[iteratePlayer].score.push(bonusPinsFall1);
+
+        let bonusPinsFall2 = parseInt(prompt('Bonus try 2 - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
+        while (isNaN(bonusPinsFall2) || bonusPinsFall2 < 0 || bonusPinsFall2 > 10) {
+            console.log('Enter a valid score (between 0 and 10).');
+            bonusPinsFall2 = parseInt(prompt('Bonus try 2 - How many pins fell for ' + playerList[iteratePlayer].name + ': '));
+        }
+        playerList[iteratePlayer].score.push(bonusPinsFall2);
+    }
+}
+
+showScore();
+
+function showScore() {
+    console.log('\nResults: ');
+    for (let iteratePlayer = 0; iteratePlayer < playerList.length; iteratePlayer++) {
+        const totalScore = calculateTotalScore(playerList[iteratePlayer].score);
+        console.log(playerList[iteratePlayer].name + ' : ' + totalScore);
+        if (totalScore > maxScore) {
+            maxScore = totalScore;
+            winners = [playerList[iteratePlayer].name];
+        } else if (totalScore === maxScore) {
+            winners.push(playerList[iteratePlayer].name);
+        }
     }
 
-
+    if (winners.length === 1) {
+        console.log(`\nThe winner is ${winners[0]}, congratulations to the GOAT!`);
+    } else {
+        console.log(`\nThe winners are ${winners.join(', ')}, congratulations to the GOATs!`);
+    }
 }
 
-console.log(playerList);
+function calculateTotalScore(scoreArray) {
+    let total = 0;
+    let frameIndex = 0;
+
+    for (let frame = 0; frame < 9; frame++) {
+        const frameScore = scoreArray[frameIndex] + scoreArray[frameIndex + 1];
+
+        if (scoreArray[frameIndex] === 10) {
+            total += frameScore + scoreArray[frameIndex + 2] + scoreArray[frameIndex + 3];
+            frameIndex += 1;
+        } else if (frameScore === 10 && scoreArray[frameIndex] !== 0) {
+            total += frameScore + scoreArray[frameIndex + 2];
+            frameIndex += 2;
+        } else {
+            total += frameScore;
+            frameIndex += 2;
+        }
+    }
+
+    const frameScore = scoreArray[frameIndex] + scoreArray[frameIndex + 1] + scoreArray[frameIndex + 2];
+    total += frameScore;
+
+    return total;
+}
