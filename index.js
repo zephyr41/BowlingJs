@@ -79,7 +79,7 @@ for (let frame = 0; frame < 2; frame++) {
                 }
                 if (playerList[iteratePlayer].ifspare == true && throwFrame === 0) {
                     playerList[iteratePlayer].score.push(pinsFall + 10)
-                    playerList[iteratePlayer].ifspare == false
+
                 } else {
                     playerList[iteratePlayer].score.push(pinsFall)
                 }
@@ -90,16 +90,23 @@ for (let frame = 0; frame < 2; frame++) {
 
             
             if(frame === 1 && throwFrame === 1 && playerList[iteratePlayer].ifStrike === true){
-                console.log("Bonus S T R I K E + 2 turn  ")
-                const bonus1 = parseInt(prompt('How many pins fell for ' + playerList[iteratePlayer].nom + ": "));
-                playerList[iteratePlayer].score.push(bonus1)
+                console.log("Bonus S T R I K E + 2 turns  ")
+                const bonusStrike = parseInt(prompt('How many pins fell for ' + playerList[iteratePlayer].nom + ": "));
+                playerList[iteratePlayer].score.push(bonusStrike)
                 const bonus2 = parseInt(prompt('How many pins fell for ' + playerList[iteratePlayer].nom + ": "));
                 playerList[iteratePlayer].score.push(bonus2)
             }
+            else if(frame === 1 && throwFrame === 1 && playerList[iteratePlayer].ifspare === true){
+                console.log("Bonus S P A R E + 1 turn  ")
+                const bonusSpare = parseInt(prompt('How many pins fell for ' + playerList[iteratePlayer].nom + ": "));
+                playerList[iteratePlayer].score.push(bonusSpare)
+            }
+            
             playerList[iteratePlayer].ifStrike = false
             playerList[iteratePlayer].ifspare = false
+            
         }
-
+        playerList[iteratePlayer].keels = 10
     }
 
 
