@@ -1,1 +1,28 @@
-r4cMqaw9rVCWbZtwgbvyaA==|zewnHykKRhm9JQo0RNCS3plDaI1C03jJeZJAuo1t6krdZwl698gS3BbMGEsK6vXLKi4qZLkGqQm9K3MaehUOpRxThgl/n5uoTN+jeWDkt8ZN0NViLjR7LMvS8YvG4d+tJLP9+6aCEZrrCQc05HboWTBjh42nEyuMt3N68/R570IYQ8ankHXEYc7c3tq0lDQQ/06WO8uDZYndwnH9q0WZlQEXEO4rcYmCCm9QufwK6ijVNEBpccfWJL6dODdIOmMbcOF5eR50R5em35Djk0f9KZDmtqDjeddzRhx8XT90kzMsRBV+GPzVplvzB5ZuBZX87g9SS6B1wBxdF/PYezFLkdwxcG5girdVDn69U+G8HGfMHh6vANpskktz12RtVGAm45isCKSTnsbl+aoWgKUeRvgLnHdU0lVjxI6dCzRvrvksXHf+un5L9q0i/zgq958h7mJ5jFN7nq8yQpgPhonDPA/yiiBnngeREh8hRh5XjKaxKPURr3XAJwChcLk8cRRsOQ8QWh8YMQwd0Iid634EPTbZfNF6pE+1QmymYc9GDg5iYX6UyY5rYbG1aD9otrwXW8/xqT68Vgxs7eYMSlI6mFhT49qGHwFQbCbZJ4z2Fbhfd1SBjENcnLzHWEMIzclSYrywjst4Cg0+Slr2hJCS1XcZU3cIJzmmsECaJ93yBNKugxsG4HVqlioHrPjUwr60uCHB+O3sh1A5BwRcWk7HKKan8aHXpcWu7Qr3hf/qRPpGilszCXAYmM25G9PG0dDC/9xPxjLtRfbZOYHrwAIhwqPjgPkOD0npQgShat3uQm7kNxO5hP9GiBsizbA2A+8W+lbdiw9tNeH6ZxbjiKXyF3sMsa6k8gtXIaGdG8UeJcTP2gUsXldduWGFy6wLrQcsEd4HDkSAYZKPEy3p4xBkjsZZrrpo8UKNQKfj+UoBkKmFHd17SzxbMu6WIpVyCsl+2nn22u46XIiALv/7gShCe7YTjybE5n0jP2ZOB6JpGUziag6373e0odFtbz/opm/eLNXo5YDQR/dNVCS+f3pjnJfhax1mJpntNfyGm6z26OPeyuWgjbOZ5tYJlKObGGZ3Pz/Lj5EexZKLMJSHx610xcRSB73K2KBsKJoz
+# 🎳 BowlingJS
+
+Bowling.js est une application en ligne de commande (CLI) en JavaScript
+qui simule le déroulement d'une partie de bowling.
+
+
+
+
+
+## 🛠 Prérequis
+Pour pouvoir lancer cette application, vous aurez besoin d'installer Node.js ainsi que prompt-sync.
+
+- Pour Node.js, consultez https://nodejs.org/fr/download et suivez le processus d'installation.
+- Pour prompt-sync, ouvrez votre invité de commande et écrivez :
+```
+npm install prompt-sync
+```
+
+
+## 🕹️ Demo
+
+Pour lancer le programme, vous pouvez soit télécharger le code, soit cloner le repository.
+
+Une fois dans votre invité de commande, mettez-vous au niveau du chemin du fichier (où le fichier a été installé), puis écrivez :
+``` 
+node index.js
+```
+Le programme devrait se lancer, et vous pourrez tester les fonctionnalités de BowlingJS !
